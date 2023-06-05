@@ -1,4 +1,5 @@
 const express = require("express");
+const listarDiasDoMes = require("../utils.js")
 //const fs = require("fs");
 const app = express();
 //const mudaPosicaoArrey = require("./src/utils.js")
@@ -25,5 +26,23 @@ module.exports = {
             lista[posicao] = aux;
             return res.status(200).send(lista);
         }
+    },
+
+    async mostrarDiasDoMes(req, res){
+        const {mes,ano} = req.query;
+        
+        if(mes === undefined){
+            return res.status(400).send("Mês não informado");
+        }
+
+        if(mes < 1 || mes > 12){
+            return res.status(400).send(`O mês ${mes} é um mês inválido`)
+        }
+
+        let diasDoMes = [];
+        listarDiasDoMes(mes, ano).forEach((dia) =>{
+            diasDoMes.push(dia)
+        });
+        return res.status(200).send(diasDoMes);
     }
 }
