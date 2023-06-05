@@ -1,6 +1,6 @@
 const express = require("express");
 const listarDiasDoMes = require("../utils.js")
-//const fs = require("fs");
+const fs = require("fs");
 const app = express();
 //const mudaPosicaoArrey = require("./src/utils.js")
 
@@ -44,5 +44,24 @@ module.exports = {
             diasDoMes.push(dia)
         });
         return res.status(200).send(diasDoMes);
+    },
+
+    async salvarDadosJson(req, res){
+        const caminhoDoArquivo = "./database/dados.json";
+        const dados = req.body;
+
+        if(Object.keys(dados).length === 0){
+            return res.status(400).send("Dados não foram informados")
+        }
+        if(fs.existsSync(caminhoDoArquivo)){
+            const conteudoDoArquivo = fs.readFileSync(caminhoDoArquivo);
+            const jasonDados = JSON.parse(conteudoDoArquivo);
+
+            jasonDados.push(dados);
+            fs.writeFileSync(caminhoDoArquivo, JASON.stringify(jasonDados));
+        }else{
+            fs.writeFileSync(caminhoDoArquivo, JSON.stringify([dados]));
+        }
+        return res.status(200).send("Dados salvo com sucesso");    
     }
 }
