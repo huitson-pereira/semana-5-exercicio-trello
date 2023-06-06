@@ -63,5 +63,25 @@ module.exports = {
             fs.writeFileSync(caminhoDoArquivo, JSON.stringify([dados]));
         }
         return res.status(200).send("Dados salvo com sucesso");    
+    },
+
+    async consultarUsuario(req, res){
+        const ageMin = parseInt(req.query.ageMin);
+        const ageMax = parseInt(req.query.ageMax);
+        const state = req.query.state;
+        const job = req.query.job;
+        const caminhoDoArquivo = "./database/user.json";
+        const conteudoDoArquivo = fs.readFileSync(caminhoDoArquivo);
+        const jsonDados = JSON.parse(conteudoDoArquivo);
+
+        const pesquisarNoJsonUser = jsonDados.filter(user => {
+            const criterioIdade = (!ageMin || user.age >= ageMin) && (!ageMax || user.age <= ageMax);
+            const criterioState = !state || user.state.toLowerCase() === state.toLowerCase();
+            const criterioJob = !job || user.job.toLowerCase() === job.toLowerCase();
+        
+            return criterioIdade && criterioState && criterioJob;
+        });
+        
+        return res.json(pesquisarNoJsonUser);
     }
 }
