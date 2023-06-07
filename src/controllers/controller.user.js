@@ -83,5 +83,40 @@ module.exports = {
         });
         
         return res.json(pesquisarNoJsonUser);
+    },
+
+    async alterarDadosUsuario(req, res){
+        const id = Number(req.params.id);
+        const novosDados = req.body;
+        const caminhoDoArquivo = "./database/user.json";
+        const conteudoDoArquivo = fs.readFileSync(caminhoDoArquivo);
+        const jsonDados = JSON.parse(conteudoDoArquivo);
+
+        const procuraId = jsonDados.findIndx((user)=> user.id == id);
+
+        if(!procuraId){
+            return res.status(400).send("Id não encontrado");
+        }
+
+        let alterar = false;
+        const keys = Object.keys(novosDados)
+        
+        keys.forEach(key => {
+            if(procuraId[key] !== novosDados[key]){
+                procuraId[key] = novosDados[key];
+                alterar = true;
+            }
+        });
+
+        if(alterar){
+            fs.writeFileSync(caminhoDoArquivo, JSON.stringify(jsonDados, null, 2), err =>{
+                if(err){
+                    return res.status(500).json({ error: "Erro ao salver o arquivo JSON"});
+                }
+                return res.json({success: "Valores alterados com sucesso"});
+            });
+        }else{
+            return res.jsn({info: "Não há nada para alterar"});
+        }
     }
 }
