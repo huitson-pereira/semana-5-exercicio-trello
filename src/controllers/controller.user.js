@@ -136,5 +136,20 @@ module.exports = {
         fs.writeFileSync(filePath, JSON.stringify(jsonDados));
         return res.status(200).send("Usuário removido com sucesso");
 
+    },
+
+    async pegarUsuario(req, res){
+        const id = Number(req.params.id);
+        const caminhoDoArquivo = "./database/user.json";
+        const conteudoDoArquivo = fs.readFileSync(caminhoDoArquivo);
+        const jsonDados = JSON.parse(conteudoDoArquivo);
+
+        const idInformado = jsonDados.findIndex((user) => user.id === id);
+
+        if (idInformado) {
+            return res.json({ name: idInformado.name });
+        } else {
+            return res.status(404).json({ error: 'ID não encontrado na lista de usuários' });
+        }
     }
 }
