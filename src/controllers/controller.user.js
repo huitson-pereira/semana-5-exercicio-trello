@@ -118,5 +118,23 @@ module.exports = {
         }else{
             return res.jsn({info: "Não há nada para alterar"});
         }
+    },
+
+    async deletarUsuario(req, res){
+        const itemId = req.params.id;
+        const caminhoDoArquivo = "./database/user.json";
+        const conteudoDoArquivo = fs.readFileSync(caminhoDoArquivo);
+        const jsonDados = JSON.parse(conteudoDoArquivo);
+
+        const procuraId = jsonDados.findIndx((user)=> user.id == id);
+
+        if(!procuraId){
+            return res.status(400).send("Id não encontrado");
+        }
+
+        json.splice(procuraId, 1);
+        fs.writeFileSync(filePath, JSON.stringify(jsonDados));
+        return res.status(200).send("Usuário removido com sucesso");
+
     }
 }
