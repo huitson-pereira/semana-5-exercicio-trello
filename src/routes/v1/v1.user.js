@@ -8,7 +8,8 @@ const {
     consultarUsuario, 
     alterarDadosUsuario, 
     deletarUsuario,
-    pegarUsuario 
+    pegarUsuario, 
+    converteTexto
 } = require("../../controllers/controller.user");
 
 usersRoutesV1.patch('/trocarPosicaoLista/:nome', trocarPosicaoNoArray);
@@ -18,6 +19,7 @@ usersRoutesV1.get("/pesquisarUsuario", consultarUsuario);
 usersRoutesV1.put("/alterar/:id", alterarDadosUsuario);
 usersRoutesV1.delete("/apagar/:id", deletarUsuario);
 usersRoutesV1.get("procurarUsuario", pegarUsuario)
+usersRoutesV1.post("/converterTexto", converteTexto)
 
 
 module.exports = usersRoutesV1;

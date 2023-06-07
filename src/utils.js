@@ -14,5 +14,19 @@ function listarDiasDoMes(mes, ano=2023){
     return diasFormatados;
 }
 
+function converterString(texto) {
+    let textoConvertido = '';
+    for (let i = 0; i < texto.length; i++) {
+      const char = texto.charAt(i);
+      if (char === char.toLowerCase()) {
+        textoConvertido += char.toUpperCase();
+      } else {
+        textoConvertido += char.toLowerCase();
+      }
+    }
+    return textoConvertido;
+  }
+  
 
-module.exports = listarDiasDoMes;
+
+module.exports = listarDiasDoMes, converterString;

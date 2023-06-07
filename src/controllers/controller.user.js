@@ -2,7 +2,7 @@ const express = require("express");
 const listarDiasDoMes = require("../utils.js")
 const fs = require("fs");
 const app = express();
-//const mudaPosicaoArrey = require("./src/utils.js")
+const converterString = require("./src/utils.js")
 
 app.use(express.json())
 
@@ -151,5 +151,22 @@ module.exports = {
         } else {
             return res.status(404).json({ error: 'ID não encontrado na lista de usuários' });
         }
+    },
+
+    async converteTexto(req,res){
+        const dadosParaConverter = req.body;
+        const textoConvertido = "";
+        if (Object.keys(dadosParaConverter).length === 0) {
+              return res.status(400).send("Dados não informados");
+        }
+
+        if (typeof dadosParaConverter !== 'string') {
+            return res.status(400).json({ error: 'O valor fornecido não é uma string' });
+        }
+
+        textoConvertido = converterString(dadosParaConverter);
+        
+        return res.status(200).json(textoConvertido);
+        
     }
 }
