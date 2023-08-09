@@ -18,7 +18,7 @@ usersRoutesV1.post("/salvarDados", salvarDadosJson);
 usersRoutesV1.get("/pesquisarUsuario", consultarUsuario);
 usersRoutesV1.put("/alterar/:id", alterarDadosUsuario);
 usersRoutesV1.delete("/apagar/:id", deletarUsuario);
-usersRoutesV1.get("procurarUsuario", pegarUsuario)
+usersRoutesV1.get("/procurarUsuario", pegarUsuario)
 usersRoutesV1.post("/converterTexto", converteTexto)
 
 
